@@ -26,9 +26,9 @@ func CoursesRouter(w http.ResponseWriter, r *http.Request) {
 	case "delete":
 		courseHandlers.DeleteCourse(w, r)
 	case "enroll":
-		courseHandlers.EnrollStudent(w, r)
-	case "progress":
-		courseHandlers.UpdateProgress(w, r)
+		courseHandlers.EnrollCourse(w, r)
+	case "my-enrollments":
+		courseHandlers.GetMyEnrollments(w, r)
 	default:
 		http.Error(w, "Not Found", http.StatusNotFound)
 	}
