@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 	"net/http"
@@ -23,7 +22,7 @@ func CreateCourse(w http.ResponseWriter, r *http.Request) {
 		}
 
 		ctx := r.Context()
-		uid, _, role := utils.GetUserFromContext(ctx)
+		uid, _, _ := utils.GetUserFromContext(ctx)
 
 		// Parse request
 		var req models.CreateCourseRequest
