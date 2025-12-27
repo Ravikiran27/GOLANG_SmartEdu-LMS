@@ -1,11 +1,11 @@
 {
-  "functions": {
-    "api/**/*.go": {
-      "runtime": "go1.x",
-      "memory": 1024,
-      "maxDuration": 10
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.go",
+      "use": "@vercel/go"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -13,11 +13,6 @@
     }
   ],
   "env": {
-    "GO_ENV": "production"
-  },
-  "build": {
-    "env": {
-      "GO111MODULE": "on"
-    }
+    "GO111MODULE": "on"
   }
 }
