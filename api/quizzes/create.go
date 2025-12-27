@@ -1,13 +1,10 @@
 package handler
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
 	"time"
 
-	"firebase.google.com/go/v4/auth"
-	"cloud.google.com/go/firestore"
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 )

@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"

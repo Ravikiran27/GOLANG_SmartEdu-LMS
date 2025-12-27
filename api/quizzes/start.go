@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
 	"time"
 
+	"cloud.google.com/go/firestore"
 	"google.golang.org/api/iterator"
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
 	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
@@ -109,15 +109,15 @@ func StartQuiz(w http.ResponseWriter, r *http.Request) {
 
 		// Check for in-progress submission
 		for _, doc := range submissionDocs {
-			var sub models.QuizSubmission
-			if err := doc.DataTo(&sub); err == nil {
-				if sub.Status == "in_progress" {
-					// Resume existing attempt
-					utils.RespondSuccess(w, "Resuming existing attempt", map[string]interface{}{
-						"submission": sub,
-						"resumed":    true,
-					})
-					return
+		var sub models.QuizSubmission
+		if err := doc.DataTo(&sub); err == nil {
+			if sub.Status == "in_progress" {
+				// Resume existing attempt
+				utils.RespondSuccess(w, map[string]interface{}{
+					"submission": sub,
+					"resumed":    true,
+				})
+				return
 				}
 			}
 		}
