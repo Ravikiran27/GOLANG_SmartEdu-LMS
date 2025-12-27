@@ -50,6 +50,12 @@
     }
   ],
   "env": {
-    "GO111MODULE": "on"
+    "GO111MODULE": "on",
+    "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyDV2vK5mXHKnFjPBF4UwoctJMF_uzTEpfg",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "flutterdemo-6d4ac.firebaseapp.com",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "flutterdemo-6d4ac",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "flutterdemo-6d4ac.firebasestorage.app",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "764379386105",
+    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:764379386105:web:c62baca4253f4d351cd228"
   }
 }
