@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	"lms-platform/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 	"net/http"
 
 	"cloud.google.com/go/firestore"

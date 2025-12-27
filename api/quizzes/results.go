@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"google.golang.org/api/iterator"
-	"github.com/yourusername/lms/models"
-	"github.com/yourusername/lms/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 )
 
 // Handler gets quiz results for a student or all students (for teachers)

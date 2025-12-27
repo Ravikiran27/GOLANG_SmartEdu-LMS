@@ -8,8 +8,8 @@ import (
 
 	"firebase.google.com/go/v4/auth"
 	"cloud.google.com/go/firestore"
-	"github.com/yourusername/lms/models"
-	"github.com/yourusername/lms/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 )
 
 // Handler creates a new quiz (teacher/admin only)

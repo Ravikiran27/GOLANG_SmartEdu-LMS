@@ -1,4 +1,4 @@
-module lms-platform
+module github.com/Ravikiran27/GOLANG_SmartEdu-LMS
 
 go 1.21
 

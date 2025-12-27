@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"github.com/yourusername/lms/models"
-	"github.com/yourusername/lms/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 )
 
 // Handler allows teacher to resume a student's locked quiz (teacher only)

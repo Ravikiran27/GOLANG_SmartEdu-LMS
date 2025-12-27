@@ -2,8 +2,8 @@ package handler
 
 import (
 	"context"
-	"lms-platform/models"
-	"lms-platform/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 	"net/http"
 
 	"github.com/google/uuid"

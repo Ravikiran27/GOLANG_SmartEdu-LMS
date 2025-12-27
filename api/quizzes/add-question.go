@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
-	"github.com/yourusername/lms/models"
-	"github.com/yourusername/lms/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 )
 
 // Handler adds a question to a quiz (teacher/admin only)

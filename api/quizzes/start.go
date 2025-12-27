@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"google.golang.org/api/iterator"
-	"github.com/yourusername/lms/models"
-	"github.com/yourusername/lms/utils"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/utils"
 )
 
 // Handler starts a quiz attempt for a student
