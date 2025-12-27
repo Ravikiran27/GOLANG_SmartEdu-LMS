@@ -157,10 +157,12 @@ func AddQuestion(w http.ResponseWriter, r *http.Request) {
 			{Path: "updatedAt", Value: now},
 		})
 		if err != nil {
-			utils.RespondError(w, http.StatusInternalServerError, "Failed to update quiz")
-			return
-		}
+		utils.RespondError(w, http.StatusInternalServerError, "Failed to update quiz")
+		return
+	}
 
-		utils.RespondSuccess(w, "Question added successfully", question)
-	})).ServeHTTP(w, r)
+	utils.RespondSuccess(w, "Question added successfully", map[string]interface{}{
+		"question": question,
+	})
+})).ServeHTTP(w, r)
 }
