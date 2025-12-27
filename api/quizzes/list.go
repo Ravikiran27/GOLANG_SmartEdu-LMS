@@ -91,7 +91,7 @@ func ListQuizzes(w http.ResponseWriter, r *http.Request) {
 
 				// If no enrollments, return empty array
 				if len(courseIDs) == 0 {
-					utils.RespondSuccess(w, "Quizzes fetched successfully", []models.Quiz{})
+					utils.RespondSuccess(w, []models.Quiz{}, "Quizzes fetched successfully")
 					return
 				}
 
@@ -130,6 +130,6 @@ func ListQuizzes(w http.ResponseWriter, r *http.Request) {
 			quizzes = append(quizzes, quiz)
 		}
 
-		utils.RespondSuccess(w, "Quizzes fetched successfully", quizzes)
+		utils.RespondSuccess(w, quizzes, "Quizzes fetched successfully")
 	})).ServeHTTP(w, r)
 }

@@ -156,6 +156,6 @@ func CreateQuiz(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		utils.RespondSuccess(w, "Quiz created successfully", quiz)
+		utils.RespondSuccess(w, quiz, "Quiz created successfully")
 	})).ServeHTTP(w, r)
 }

@@ -85,6 +85,6 @@ func GetQuiz(w http.ResponseWriter, r *http.Request) {
 		}
 		// Admins can see all quizzes
 
-		utils.RespondSuccess(w, "Quiz fetched successfully", quiz)
+		utils.RespondSuccess(w, quiz, "Quiz fetched successfully")
 	})).ServeHTTP(w, r)
 }

@@ -166,10 +166,10 @@ func ResumeQuiz(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		utils.RespondSuccess(w, "Quiz resumed successfully", map[string]interface{}{
+		utils.RespondSuccess(w, map[string]interface{}{
 			"submissionId": req.SubmissionID,
 			"extendedTime": req.ExtendTime,
 			"newTimeLimit": submission.TimeLimit + req.ExtendTime,
-		})
+		}, "Quiz resumed successfully")
 	})).ServeHTTP(w, r)
 }

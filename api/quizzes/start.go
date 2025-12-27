@@ -231,7 +231,7 @@ func StartQuiz(w http.ResponseWriter, r *http.Request) {
 
 		submission.Questions = clientQuestions
 
-		utils.RespondSuccess(w, "Quiz started successfully", map[string]interface{}{
+		utils.RespondSuccess(w, map[string]interface{}{
 			"submission": submission,
 			"resumed":    false,
 			"cheatingPrevention": map[string]interface{}{

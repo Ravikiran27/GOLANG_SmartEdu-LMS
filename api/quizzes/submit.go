@@ -255,6 +255,6 @@ func SubmitQuiz(w http.ResponseWriter, r *http.Request) {
 			response["suspiciousActivity"] = suspiciousFlags
 		}
 
-		utils.RespondSuccess(w, "Quiz submitted successfully", response)
+		utils.RespondSuccess(w, response, "Quiz submitted successfully")
 	})).ServeHTTP(w, r)
 }

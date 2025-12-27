@@ -92,12 +92,12 @@ func GetResults(w http.ResponseWriter, r *http.Request) {
 			if err == nil {
 				var student models.User
 				if err := studentDoc.DataTo(&student); err == nil {
-					submission.StudentName = student.Name
+					submission.StudentName = student.DisplayName
 					submission.StudentEmail = student.Email
 				}
 			}
 
-			utils.RespondSuccess(w, "Results fetched successfully", submission)
+			utils.RespondSuccess(w, submission, "Results fetched successfully")
 			return
 		}
 
@@ -160,7 +160,7 @@ func GetResults(w http.ResponseWriter, r *http.Request) {
 					if err == nil {
 						var student models.User
 						if err := studentDoc.DataTo(&student); err == nil {
-							submission.StudentName = student.Name
+							submission.StudentName = student.DisplayName
 							submission.StudentEmail = student.Email
 						}
 					}
@@ -195,10 +195,10 @@ func GetResults(w http.ResponseWriter, r *http.Request) {
 				stats["totalFailed"] = len(submissions) - passed
 			}
 
-			utils.RespondSuccess(w, "Results fetched successfully", map[string]interface{}{
+			utils.RespondSuccess(w, map[string]interface{}{
 				"submissions": submissions,
 				"statistics":  stats,
-			})
+			}, "Results fetched successfully")
 		}
 	})).ServeHTTP(w, r)
 }

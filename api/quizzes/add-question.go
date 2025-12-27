@@ -161,8 +161,8 @@ func AddQuestion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.RespondSuccess(w, "Question added successfully", map[string]interface{}{
+	utils.RespondSuccess(w, map[string]interface{}{
 		"question": question,
-	})
+	}, "Question added successfully")
 })).ServeHTTP(w, r)
 }
