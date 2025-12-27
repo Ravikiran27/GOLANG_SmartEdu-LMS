@@ -11,6 +11,7 @@ export interface ApiResponse<T = any> {
 }
 
 async function getAuthToken(): Promise<string | null> {
+  if (!auth) return null;
   const user = auth.currentUser;
   if (!user) return null;
   return await user.getIdToken();
