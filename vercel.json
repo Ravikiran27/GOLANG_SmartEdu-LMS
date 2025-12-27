@@ -2,14 +2,30 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/*.go",
+      "src": "api/auth.go",
+      "use": "@vercel/go"
+    },
+    {
+      "src": "api/courses.go",
+      "use": "@vercel/go"
+    },
+    {
+      "src": "api/quizzes.go",
       "use": "@vercel/go"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/api/auth/(.*)",
+      "dest": "/api/auth.go"
+    },
+    {
+      "src": "/api/courses/(.*)",
+      "dest": "/api/courses.go"
+    },
+    {
+      "src": "/api/quizzes/(.*)",
+      "dest": "/api/quizzes.go"
     }
   ],
   "env": {
