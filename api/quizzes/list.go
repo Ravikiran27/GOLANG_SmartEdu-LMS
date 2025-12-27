@@ -104,7 +104,7 @@ func ListQuizzes(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Order by creation date (newest first)
-		query = query.OrderBy("createdAt", "desc").Limit(limit)
+		query = query.OrderBy("createdAt", firestore.Desc).Limit(limit)
 
 		// Execute query
 		iter := query.Documents(ctx)

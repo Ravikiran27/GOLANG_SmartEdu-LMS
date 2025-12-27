@@ -142,7 +142,7 @@ func StartQuiz(w http.ResponseWriter, r *http.Request) {
 		// Get all questions for this quiz
 		questionsQuery := firestoreClient.Collection("questions").
 			Where("quizId", "==", req.QuizID).
-			OrderBy("order", "asc")
+			OrderBy("order", firestore.Asc)
 
 		iter := questionsQuery.Documents(ctx)
 		defer iter.Stop()

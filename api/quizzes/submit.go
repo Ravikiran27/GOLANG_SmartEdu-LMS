@@ -224,22 +224,20 @@ func SubmitQuiz(w http.ResponseWriter, r *http.Request) {
 			_, err = analyticsRef.Update(ctx, []firestore.Update{
 				{Path: "quizzesCompleted", Value: firestore.Increment(1)},
 				{Path: "totalQuizScore", Value: firestore.Increment(int(totalScore))},
-				{Path: "updatedAt", Value: now},
-			})
-		} else {
-			// Create new analytics
-			analytics := models.Analytics{
-				StudentID:        userID,
-				QuizzesCompleted: 1,
-				TotalQuizScore:   int(totalScore),
-				CreatedAt:        now,
-				UpdatedAt:        now,
-			}
-			analyticsRef = firestoreClient.Collection("analytics").NewDoc()
-			_, err = analyticsRef.Set(ctx, analytics)
+			{Path: "updatedAt", Value: now},
+		})
+	} else {
+		// Create new analytics record with basic structure
+		analyticsData := map[string]interface{}{
+			"studentId":        userID,
+			"quizzesCompleted": 1,
+			"totalQuizScore":   int(totalScore),
+			"createdAt":        now,
+			"updatedAt":        now,
 		}
-
-		// Prepare response
+		analyticsRef = firestoreClient.Collection("analytics").NewDoc()
+		_, err = analyticsRef.Set(ctx, analyticsData)
+	}		// Prepare response
 		response := map[string]interface{}{
 			"submissionId": req.SubmissionID,
 			"score":        totalScore,

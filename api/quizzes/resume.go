@@ -154,13 +154,14 @@ func ResumeQuiz(w http.ResponseWriter, r *http.Request) {
 			if err := studentDoc.DataTo(&student); err == nil {
 				// Create notification for student
 				notification := models.Notification{
-					UserID:    submission.StudentID,
-					Type:      "quiz_resumed",
-					Title:     "Quiz Resumed",
-					Message:   "Your teacher has resumed your quiz: " + quiz.Title,
-					Link:      "/quizzes/" + submission.QuizID,
-					IsRead:    false,
-					CreatedAt: now,
+					UserID:        submission.StudentID,
+					Type:          "quiz_resumed",
+					Title:         "Quiz Resumed",
+					Message:       "Your teacher has resumed your quiz: " + quiz.Title,
+					ReferenceID:   submission.QuizID,
+					ReferenceType: "quiz",
+					IsRead:        false,
+					CreatedAt:     now,
 				}
 				firestoreClient.Collection("notifications").NewDoc().Set(ctx, notification)
 			}

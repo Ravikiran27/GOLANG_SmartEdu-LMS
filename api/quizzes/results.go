@@ -134,7 +134,7 @@ func GetResults(w http.ResponseWriter, r *http.Request) {
 			// Admins see all submissions
 
 			// Execute query
-			iter := query.OrderBy("submittedAt", "desc").Documents(ctx)
+			iter := query.OrderBy("submittedAt", firestore.Desc).Documents(ctx)
 			defer iter.Stop()
 
 			submissions := make([]models.QuizSubmission, 0)
