@@ -1,0 +1,23 @@
+{
+  "functions": {
+    "api/**/*.go": {
+      "runtime": "go1.x",
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ],
+  "env": {
+    "GO_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "GO111MODULE": "on"
+    }
+  }
+}

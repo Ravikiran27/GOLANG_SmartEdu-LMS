@@ -1,0 +1,271 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ========================================
+    // HELPER FUNCTIONS
+    // ========================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && request.auth.token.role == role;
+    }
+    
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+    
+    function isAdmin() {
+      return hasRole('admin');
+    }
+    
+    function isTeacher() {
+      return hasRole('teacher');
+    }
+    
+    function isStudent() {
+      return hasRole('student');
+    }
+    
+    // ========================================
+    // USERS COLLECTION
+    // ========================================
+    
+    match /users/{userId} {
+      // Users can read their own profile, admins can read all
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Users can update their own profile (but not their role)
+      allow update: if isOwner(userId) && 
+                       request.resource.data.role == resource.data.role;
+      
+      // Only admins can create/delete users
+      allow create, delete: if isAdmin();
+    }
+    
+    // ========================================
+    // COURSES COLLECTION
+    // ========================================
+    
+    match /courses/{courseId} {
+      // Published courses visible to all authenticated users
+      // Unpublished only to owner teacher or admin
+      allow read: if isAuthenticated() && 
+                     (resource.data.isPublished == true || 
+                      resource.data.teacherId == request.auth.uid || 
+                      isAdmin());
+      
+      // Teachers and admins can create courses
+      allow create: if isTeacher() || isAdmin();
+      
+      // Only course owner teacher or admin can update/delete
+      allow update, delete: if isAuthenticated() && 
+                               (resource.data.teacherId == request.auth.uid || 
+                                isAdmin());
+    }
+    
+    // ========================================
+    // ENROLLMENTS COLLECTION
+    // ========================================
+    
+    match /enrollments/{enrollmentId} {
+      // Students can read their own enrollments
+      // Teachers/admins can read all
+      allow read: if isAuthenticated() && 
+                     (resource.data.studentId == request.auth.uid || 
+                      isTeacher() || 
+                      isAdmin());
+      
+      // Only students can enroll themselves
+      allow create: if isStudent() && 
+                       request.resource.data.studentId == request.auth.uid;
+      
+      // Students can update their own progress
+      allow update: if isAuthenticated() && 
+                       (resource.data.studentId == request.auth.uid || 
+                        isAdmin());
+      
+      // Only admins can delete enrollments
+      allow delete: if isAdmin();
+    }
+    
+    // ========================================
+    // QUIZZES COLLECTION
+    // ========================================
+    
+    match /quizzes/{quizId} {
+      // Published quizzes visible to enrolled students
+      // All quizzes visible to owner teacher and admin
+      allow read: if isAuthenticated() && 
+                     (resource.data.isPublished == true || 
+                      resource.data.teacherId == request.auth.uid || 
+                      isAdmin());
+      
+      // Teachers and admins can create quizzes
+      allow create: if isTeacher() || isAdmin();
+      
+      // Only owner teacher or admin can update/delete
+      allow update, delete: if isAuthenticated() && 
+                               (resource.data.teacherId == request.auth.uid || 
+                                isAdmin());
+    }
+    
+    // ========================================
+    // QUESTIONS COLLECTION
+    // ========================================
+    
+    match /questions/{questionId} {
+      // Only teachers and admins can read questions (prevents answer leakage)
+      allow read: if isTeacher() || isAdmin();
+      
+      // Only teachers and admins can write questions
+      allow write: if isTeacher() || isAdmin();
+    }
+    
+    // ========================================
+    // QUIZ SUBMISSIONS COLLECTION
+    // ========================================
+    
+    match /quiz_submissions/{submissionId} {
+      // Students can read their own submissions
+      // Teachers/admins can read all submissions
+      allow read: if isAuthenticated() && 
+                     (resource.data.studentId == request.auth.uid || 
+                      isTeacher() || 
+                      isAdmin());
+      
+      // Students can create their own submissions
+      allow create: if isStudent() && 
+                       request.resource.data.studentId == request.auth.uid;
+      
+      // Only teachers and admins can update (for evaluation)
+      allow update: if isTeacher() || isAdmin();
+      
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+    
+    // ========================================
+    // EXAMS COLLECTION
+    // ========================================
+    
+    match /exams/{examId} {
+      // Published exams visible to enrolled students
+      // All exams visible to owner teacher and admin
+      allow read: if isAuthenticated() && 
+                     (resource.data.isPublished == true || 
+                      resource.data.teacherId == request.auth.uid || 
+                      isAdmin());
+      
+      // Teachers and admins can create exams
+      allow create: if isTeacher() || isAdmin();
+      
+      // Only owner teacher or admin can update/delete
+      allow update, delete: if isAuthenticated() && 
+                               (resource.data.teacherId == request.auth.uid || 
+                                isAdmin());
+    }
+    
+    // ========================================
+    // EXAM SUBMISSIONS COLLECTION
+    // ========================================
+    
+    match /exam_submissions/{submissionId} {
+      // Students can read their own submissions
+      // Teachers/admins can read all
+      allow read: if isAuthenticated() && 
+                     (resource.data.studentId == request.auth.uid || 
+                      isTeacher() || 
+                      isAdmin());
+      
+      // Students can create their own submissions
+      allow create: if isStudent() && 
+                       request.resource.data.studentId == request.auth.uid;
+      
+      // Teachers and admins can update (for manual evaluation)
+      allow update: if isTeacher() || isAdmin();
+      
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+    
+    // ========================================
+    // ASSIGNMENTS COLLECTION
+    // ========================================
+    
+    match /assignments/{assignmentId} {
+      // Published assignments visible to enrolled students
+      // All assignments visible to owner teacher and admin
+      allow read: if isAuthenticated() && 
+                     (resource.data.isPublished == true || 
+                      resource.data.teacherId == request.auth.uid || 
+                      isAdmin());
+      
+      // Teachers and admins can create assignments
+      allow create: if isTeacher() || isAdmin();
+      
+      // Only owner teacher or admin can update/delete
+      allow update, delete: if isAuthenticated() && 
+                               (resource.data.teacherId == request.auth.uid || 
+                                isAdmin());
+    }
+    
+    // ========================================
+    // ASSIGNMENT SUBMISSIONS COLLECTION
+    // ========================================
+    
+    match /assignment_submissions/{submissionId} {
+      // Students can read their own submissions
+      // Teachers/admins can read all
+      allow read: if isAuthenticated() && 
+                     (resource.data.studentId == request.auth.uid || 
+                      isTeacher() || 
+                      isAdmin());
+      
+      // Students can create their own submissions
+      allow create: if isStudent() && 
+                       request.resource.data.studentId == request.auth.uid;
+      
+      // Teachers and admins can update (for evaluation)
+      allow update: if isTeacher() || isAdmin();
+      
+      // Only admins can delete
+      allow delete: if isAdmin();
+    }
+    
+    // ========================================
+    // ANALYTICS COLLECTION
+    // ========================================
+    
+    match /analytics/{analyticsId} {
+      // All authenticated users can read analytics
+      allow read: if isAuthenticated();
+      
+      // Only teachers and admins can write analytics
+      allow write: if isTeacher() || isAdmin();
+    }
+    
+    // ========================================
+    // NOTIFICATIONS COLLECTION
+    // ========================================
+    
+    match /notifications/{notificationId} {
+      // Users can only read their own notifications
+      allow read: if isAuthenticated() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can update their own notifications (mark as read)
+      allow update: if isAuthenticated() && 
+                       resource.data.userId == request.auth.uid;
+      
+      // Teachers and admins can create notifications
+      allow create: if isTeacher() || isAdmin();
+      
+      // Only admins can delete notifications
+      allow delete: if isAdmin();
+    }
+  }
+}

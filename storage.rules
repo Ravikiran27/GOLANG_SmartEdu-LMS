@@ -1,0 +1,122 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // ========================================
+    // HELPER FUNCTIONS
+    // ========================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && request.auth.token.role == role;
+    }
+    
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+    
+    function isValidFileType(allowedTypes) {
+      return request.resource.contentType.matches(allowedTypes);
+    }
+    
+    function isValidFileSize(maxSize) {
+      return request.resource.size <= maxSize;
+    }
+    
+    // ========================================
+    // COURSE MATERIALS
+    // ========================================
+    
+    match /courses/{courseId}/{fileName} {
+      // Anyone authenticated can read course materials
+      allow read: if isAuthenticated();
+      
+      // Only teachers and admins can upload course materials
+      // Max file size: 100MB
+      // Allowed types: PDF, PPT, PPTX, DOC, DOCX, MP4, AVI
+      allow write: if (hasRole('teacher') || hasRole('admin')) &&
+                      isValidFileSize(100 * 1024 * 1024) &&
+                      isValidFileType('(application/pdf|application/vnd.ms-powerpoint|application/vnd.openxmlformats-officedocument.presentationml.presentation|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document|video/mp4|video/x-msvideo)');
+    }
+    
+    // ========================================
+    // ASSIGNMENT SUBMISSIONS
+    // ========================================
+    
+    match /assignments/{assignmentId}/{studentId}/{fileName} {
+      // Students can read their own submissions
+      // Teachers and admins can read all submissions
+      allow read: if isOwner(studentId) || 
+                     hasRole('teacher') || 
+                     hasRole('admin');
+      
+      // Only the student owner can upload their assignment
+      // Max file size: 50MB
+      // Allowed types: PDF, DOC, DOCX, ZIP, RAR
+      allow write: if isOwner(studentId) &&
+                      isValidFileSize(50 * 1024 * 1024) &&
+                      isValidFileType('(application/pdf|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/zip|application/x-rar-compressed)');
+    }
+    
+    // ========================================
+    // USER PROFILE PHOTOS
+    // ========================================
+    
+    match /users/{userId}/profile.{ext} {
+      // Users can read their own profile photo
+      // All authenticated users can read others' profile photos
+      allow read: if isAuthenticated();
+      
+      // Users can only update their own profile photo
+      // Max file size: 5MB
+      // Allowed types: JPEG, PNG, GIF
+      allow write: if isOwner(userId) &&
+                      isValidFileSize(5 * 1024 * 1024) &&
+                      isValidFileType('image/(jpeg|png|gif)');
+    }
+    
+    // ========================================
+    // QUIZ/EXAM QUESTION IMAGES
+    // ========================================
+    
+    match /questions/{questionId}/{fileName} {
+      // All authenticated users can read question images
+      allow read: if isAuthenticated();
+      
+      // Only teachers and admins can upload question images
+      // Max file size: 10MB
+      // Allowed types: JPEG, PNG, GIF, SVG
+      allow write: if (hasRole('teacher') || hasRole('admin')) &&
+                      isValidFileSize(10 * 1024 * 1024) &&
+                      isValidFileType('image/(jpeg|png|gif|svg\\+xml)');
+    }
+    
+    // ========================================
+    // COURSE THUMBNAILS
+    // ========================================
+    
+    match /thumbnails/{courseId}.{ext} {
+      // All authenticated users can read thumbnails
+      allow read: if isAuthenticated();
+      
+      // Teachers and admins can upload thumbnails
+      // Max file size: 2MB
+      // Allowed types: JPEG, PNG
+      allow write: if (hasRole('teacher') || hasRole('admin')) &&
+                      isValidFileSize(2 * 1024 * 1024) &&
+                      isValidFileType('image/(jpeg|png)');
+    }
+    
+    // ========================================
+    // DEFAULT DENY
+    // ========================================
+    
+    // Deny access to any other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
