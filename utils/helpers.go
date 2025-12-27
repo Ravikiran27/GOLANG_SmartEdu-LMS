@@ -88,7 +88,7 @@ func GetPaginationParams(r *http.Request) (page, pageSize int) {
 // Helper to parse int from string
 func parseInt(s string) (int, error) {
 	var i int
-	_, err := json.Unmarshal([]byte(s), &i)
+	err := json.Unmarshal([]byte(s), &i)
 	return i, err
 }
 
