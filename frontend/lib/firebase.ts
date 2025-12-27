@@ -12,10 +12,13 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase (singleton pattern)
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+// Check if we're in a browser environment and have valid config
+const isValidConfig = typeof window !== 'undefined' && firebaseConfig.apiKey;
 
-export const auth = getAuth(app);
-export const storage = getStorage(app);
+// Initialize Firebase (singleton pattern) only in browser with valid config
+const app = isValidConfig && getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+export const auth = isValidConfig && app ? getAuth(app) : null;
+export const storage = isValidConfig && app ? getStorage(app) : null;
 
 export default app;
