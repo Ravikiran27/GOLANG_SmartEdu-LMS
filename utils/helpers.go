@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 	
-	"github.com/yourusername/lms/models"
+	"github.com/Ravikiran27/GOLANG_SmartEdu-LMS/models"
 )
 
 // ParseJSONBody decodes JSON request body into a struct
