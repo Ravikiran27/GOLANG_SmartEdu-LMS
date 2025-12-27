@@ -10,7 +10,7 @@ import (
 )
 
 // Handler gets quiz results for a student or all students (for teachers)
-func Handler(w http.ResponseWriter, r *http.Request) {
+func GetResults(w http.ResponseWriter, r *http.Request) {
 	// Enable CORS
 	utils.EnableCORS(w, r)
 	if r.Method == "OPTIONS" {
@@ -40,8 +40,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Get Firestore client
-		firestoreClient := utils.GetFirestoreClient()
-		if firestoreClient == nil {
+		firestoreClient, err := utils.GetFirestoreClient(ctx)
+		if err != nil {
 			utils.RespondError(w, http.StatusInternalServerError, "Failed to initialize Firestore")
 			return
 		}

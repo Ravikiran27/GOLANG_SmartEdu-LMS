@@ -12,7 +12,7 @@ import (
 )
 
 // Handler allows teacher to resume a student's locked quiz (teacher only)
-func Handler(w http.ResponseWriter, r *http.Request) {
+func ResumeQuiz(w http.ResponseWriter, r *http.Request) {
 	// Enable CORS
 	utils.EnableCORS(w, r)
 	if r.Method == "OPTIONS" {
@@ -55,8 +55,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Get Firestore client
-		firestoreClient := utils.GetFirestoreClient()
-		if firestoreClient == nil {
+		firestoreClient, err := utils.GetFirestoreClient(ctx)
+		if err != nil {
 			utils.RespondError(w, http.StatusInternalServerError, "Failed to initialize Firestore")
 			return
 		}

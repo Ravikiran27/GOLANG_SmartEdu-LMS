@@ -11,7 +11,7 @@ import (
 )
 
 // Handler lists quizzes (filtered by role and course)
-func Handler(w http.ResponseWriter, r *http.Request) {
+func ListQuizzes(w http.ResponseWriter, r *http.Request) {
 	// Enable CORS
 	utils.EnableCORS(w, r)
 	if r.Method == "OPTIONS" {
@@ -41,8 +41,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Get Firestore client
-		firestoreClient := utils.GetFirestoreClient()
-		if firestoreClient == nil {
+		firestoreClient, err := utils.GetFirestoreClient(ctx)
+		if err != nil {
 			utils.RespondError(w, http.StatusInternalServerError, "Failed to initialize Firestore")
 			return
 		}
