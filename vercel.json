@@ -2,6 +2,10 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/index.go",
+      "use": "@vercel/go"
+    },
+    {
       "src": "api/auth.go",
       "use": "@vercel/go"
     },
@@ -26,6 +30,14 @@
     {
       "src": "/api/quizzes/(.*)",
       "dest": "/api/quizzes.go"
+    },
+    {
+      "src": "/api/?",
+      "dest": "/api/index.go"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.go"
     }
   ],
   "env": {
