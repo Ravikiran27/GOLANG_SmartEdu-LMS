@@ -1,6 +1,12 @@
 {
   "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/.next",
   "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/next"
+    },
     {
       "src": "api/index.go",
       "use": "@vercel/go"
@@ -34,6 +40,13 @@
     {
       "src": "/api/?",
       "dest": "/api/index.go"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
     }
   ],
   "env": {
