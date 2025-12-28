@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "frontend/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "zeroConfig": true
-      }
+      "use": "@vercel/next"
     },
     {
       "src": "api/index.go",
@@ -39,8 +36,12 @@
       "dest": "/api/quizzes.go"
     },
     {
-      "src": "/api/?",
+      "src": "/api/?$",
       "dest": "/api/index.go"
+    },
+    {
+      "src": "/((?!api).*)",
+      "dest": "/frontend/$1"
     }
   ],
   "env": {
