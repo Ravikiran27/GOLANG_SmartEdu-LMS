@@ -1,7 +1,7 @@
 // API Client for Backend Communication
 import { auth } from './firebase';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 export interface ApiResponse<T = any> {
   success: boolean;

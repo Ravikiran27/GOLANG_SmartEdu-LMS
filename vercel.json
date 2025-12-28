@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/.next",
   "builds": [
     {
       "src": "frontend/package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": {
+        "zeroConfig": true
+      }
     },
     {
       "src": "api/index.go",
@@ -49,6 +50,7 @@
     "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "flutterdemo-6d4ac",
     "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "flutterdemo-6d4ac.firebasestorage.app",
     "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "764379386105",
-    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:764379386105:web:c62baca4253f4d351cd228"
+    "NEXT_PUBLIC_FIREBASE_APP_ID": "1:764379386105:web:c62baca4253f4d351cd228",
+    "NEXT_PUBLIC_API_URL": "/api"
   }
 }
