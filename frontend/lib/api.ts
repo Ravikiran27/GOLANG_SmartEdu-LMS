@@ -1,7 +1,7 @@
 // API Client for Backend Communication
 import { auth } from './firebase';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
+const API_BASE = '/api';
 
 export interface ApiResponse<T = any> {
   success: boolean;
